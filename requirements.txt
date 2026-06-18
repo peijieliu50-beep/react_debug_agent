@@ -1,0 +1,46 @@
+# ============================================================
+# 基于ReAct范式的PyTorch深度学习实验自动化调试Agent
+# 依赖清单  requirements.txt   (Python 3.10+)
+#
+# 本文件已适配 Streamlit Community Cloud（~1GB 内存）：
+#   - torch 使用 CPU 版（见下方 --extra-index-url），避免拉取 CUDA 大包
+#   - 重型可选库（chromadb / sentence-transformers）默认注释关闭，
+#     云端内存不足时知识库自动降级为本地关键词检索，功能不受影响。
+#
+# 本地安装（含国内镜像加速）：
+#   pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+# ============================================================
+
+# ---------- 大模型调用（DeepSeek，兼容 OpenAI 接口） ----------
+openai>=1.30.0
+python-dotenv>=1.0.0
+
+# ---------- 前端交互界面 ----------
+streamlit>=1.33.0
+
+# ---------- 文档解析（本地预处理 + 纯文本输入） ----------
+PyPDF2>=3.0.0
+python-docx>=1.1.0
+pytesseract>=0.3.10        # OCR（云端无 Tesseract 引擎时自动降级，不影响主流程）
+Pillow>=10.0.0
+
+# ---------- 深度学习执行环境（CPU 版，适配云端） ----------
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch>=2.0.0
+
+# ---------- 结果分析与可视化 ----------
+pandas>=2.0.0
+matplotlib>=3.7.0
+
+# ---------- 其它工具 ----------
+tqdm>=4.66.0
+
+# ============================================================
+# 【可选·重型】本地若需“向量检索”而非关键词检索，取消下面两行注释：
+#   注意：Streamlit Cloud 免费版内存有限，启用可能导致 OOM，谨慎。
+# chromadb>=0.5.0
+# sentence-transformers>=2.7.0
+#
+# 【可选】torchvision：仅在需要标准数据集/模型时启用
+# torchvision>=0.15.0
+# ============================================================
