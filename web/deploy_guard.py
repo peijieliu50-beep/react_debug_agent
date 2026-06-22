@@ -66,6 +66,25 @@ def get_daily_limit() -> int:
         return 0
 
 
+def resolve_low_memory(default: str = "1") -> bool:
+    """决定网页端是否启用低内存模式，并把结果写入 os.environ['LOW_MEMORY']
+    供训练工具读取。
+
+    优先级：Secrets/环境变量显式设置 > default。
+    低内存模式下，run_train_script 不再启动第二个 torch 子进程（走静态分析降级），
+    避免网页因内存溢出或子进程阻塞而闪退。
+
+    Args:
+        default: 未显式配置时的默认值（"1"=开启低内存，"0"=关闭）
+    """
+    val = _get_secret("LOW_MEMORY", "")
+    if val == "":
+        val = default
+    val = "1" if str(val).strip().lower() in ("1", "true", "yes", "on") else "0"
+    os.environ["LOW_MEMORY"] = val
+    return val == "1"
+
+
 # ------------------------------------------------------------
 # 密码门
 # ------------------------------------------------------------
@@ -149,3 +168,4 @@ def consume_quota() -> bool:
     except Exception:  # noqa: BLE001
         pass
     return True
+
