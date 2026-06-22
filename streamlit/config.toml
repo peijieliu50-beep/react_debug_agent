@@ -1,0 +1,19 @@
+[theme]
+primaryColor = "#d62728"
+base = "light"
+
+[server]
+# 云端由平台接管端口；本地默认 8501
+headless = true
+# 限制单次上传文件大小（MB），防滥用
+maxUploadSize = 10
+# 关闭文件监视器：避免 Streamlit 扫描 torch 模块时崩溃（torch.classes 已知 bug），并降低内存
+fileWatcherType = "none"
+# 关闭 CORS/XSRF 限制带来的额外开销在演示场景无影响，这里保持默认安全设置
+
+[runner]
+# 单次脚本执行更快失败，避免长时间无响应
+fastReruns = true
+
+[browser]
+gatherUsageStats = false
